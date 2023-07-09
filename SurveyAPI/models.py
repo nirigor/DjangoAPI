@@ -10,6 +10,26 @@ class Participants(models.Model):
     ProlificId = models.CharField(max_length=100)
     Token = models.CharField(max_length=255)
 
+    # Gender
+    GENDER_OPTIONS = [
+        ("M", "Male"),
+        ("F", "Female"),
+        ("O", "Other"),
+        ("E", "External")
+    ]
+    Gender = models.CharField(max_length=1, choices=GENDER_OPTIONS)
+
+    # Age
+    AGE_OPTIONS = [
+        ("0", "External"),
+        ("1", "18 - 29"),
+        ("2", "30 - 39"),
+        ("3", "40 - 49"),
+        ("4", "50 - 59"),
+        ("5", "60 +")
+    ]
+    Age = models.CharField(max_length=1, choices=AGE_OPTIONS)
+
     # Demographics
     MARITAL_STATUS_OPTIONS = [
         ("SI", "Single"),
