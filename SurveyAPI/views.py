@@ -9,10 +9,12 @@ import hashlib
 import statistics
 from dateutil import parser
 
+MIN_DURATION = 10
+
 def attention_check(data):
     ts1 = parser.parse(data['SurveyStartTs'])
     ts2 = parser.parse(data['SurveyEndTs'])    
-    if ((ts2 - ts1).total_seconds() < 600):
+    if ((ts2 - ts1).total_seconds() < MIN_DURATION):
         return False
     if (data['TQ1'] or data['TQ2']):
         return False
@@ -38,17 +40,17 @@ def participantApi(request):
     elif request.method == 'POST':
         data = JSONParser().parse(request)
         
-        if (len(Participants.objects.all().filter(ProlificId=data['ProlificId']))):
+        if (data['ProlificId'] != 'unpaid' and len(Participants.objects.all().filter(ProlificId=data['ProlificId']))):
             return JsonResponse(status=400, data={'message' : 'ERROR: Participation in this survey is limited to one attempt.'}, safe=False)
 
         # Calculate BFI-S Score
         # https://www.psytoolkit.org/survey-library/big5-bfi-s.html
         
-        data['BFOpennessScore'] = statistics.mean([data['BF7'], data['BF8'], data['BF9']])
-        data['BFAgreeablenessScore'] = statistics.mean([data['BF10'], data['BF11'], data['BF12']])
-        data['BFExtraversionScore'] = statistics.mean([data['BF4'], data['BF5'], data['BF6']])
-        data['BFConscientiousnessScore'] = statistics.mean([data['BF13'], data['BF14'], data['BF15']])
-        data['BFNeuroticismScore'] = statistics.mean([data['BF1'], data['BF2'], data['BF3']])
+        data['BFOpennessScore'] = statistics.mean([int(data['BF7']), int(data['BF8']), int(data['BF9'])])
+        data['BFAgreeablenessScore'] = statistics.mean([int(data['BF10']), int(data['BF11']), int(data['BF12'])])
+        data['BFExtraversionScore'] = statistics.mean([int(data['BF4']), int(data['BF5']), int(data['BF6'])])
+        data['BFConscientiousnessScore'] = statistics.mean([int(data['BF13']), int(data['BF14']), int(data['BF15'])])
+        data['BFNeuroticismScore'] = statistics.mean([int(data['BF1']), int(data['BF2']), int(data['BF3'])])
         
         # Calculate TKI
         data['TKAccommodatingScore'] = \
