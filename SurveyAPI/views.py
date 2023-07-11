@@ -40,8 +40,8 @@ def participantApi(request):
     elif request.method == 'POST':
         data = JSONParser().parse(request)
 
-        if (data['ProlificId'] != 'unpaid' and len(Participants.objects.all().filter(ProlificId=data['ProlificId']))):
-            return JsonResponse(status=400, data={'message' : 'ERROR: Participation in this survey is limited to one attempt.'}, safe=False)
+        # if (data['ProlificId'] != 'unpaid' and len(Participants.objects.all().filter(ProlificId=data['ProlificId']))):
+        #     return JsonResponse(status=400, data={'message' : 'ERROR: Participation in this survey is limited to one attempt.'}, safe=False)
 
         # Calculate BFI-S Score
         # https://www.psytoolkit.org/survey-library/big5-bfi-s.html
