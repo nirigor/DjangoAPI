@@ -9,7 +9,7 @@ import hashlib
 import statistics
 from dateutil import parser
 
-MIN_DURATION = 10
+MIN_DURATION = 0
 
 def attention_check(data):
     ts1 = parser.parse(data['SurveyStartTs'])
