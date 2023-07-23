@@ -16,7 +16,7 @@ def attention_check(data):
     ts2 = parser.parse(data['SurveyEndTs'])
     if ((ts2 - ts1).total_seconds() < MIN_DURATION):
         return False
-    if (data['TQ1'] or data['TQ2']):
+    if (data['TQ1'] == "true" or data['TQ2'] == "true"):
         return False
     return True
 
