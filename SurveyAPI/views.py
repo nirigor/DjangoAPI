@@ -15,7 +15,9 @@ import hashlib
 import statistics
 from dateutil import parser
 
-MIN_DURATION = 60 * 8
+MIN_DURATION = 60 * 7
+SUCCESS_TOKEN = 'C1ID63YK'
+
 
 def attention_check(data):
     ts1 = parser.parse(data['SurveyStartTs'])
@@ -85,7 +87,7 @@ def participantApi(request):
         }
 
         if attention_check(data):
-            data['Token'] = generate_token(data)
+            data['Token'] = SUCCESS_TOKEN # generate_token(data)
             feedback['Vaid'] = True
             feedback['Message'] = 'You have successfully completed the survey.'
             status_code = 200
